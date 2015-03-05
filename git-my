@@ -45,6 +45,7 @@ _main() {
 
   # user.name<TAB>branch.name
   # the TAB is used as a delimiter to awk with
+  # shellcheck disable=SC2016
   local fmt='
     a=%(authorname)
     r=%(refname)
