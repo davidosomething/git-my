@@ -5,6 +5,10 @@
 
 [Homepage](https://github.com/davidosomething/git-my)
 
+## About
+
+Unlike `git branch -r` this shows only YOUR branches.
+
 ## Installation
 
 - Add the `git-my` file somewhere in your path, e.g. `/usr/local/bin/`
