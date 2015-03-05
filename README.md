@@ -18,14 +18,13 @@ git my
 
 ## TODO
 - Add options:
-
-  ```
-    -U|--username="gitconfig user.name"
-    -R|--remote=origin
-    -T|--tags
-    -B|--branches
-    -F|--filter=mine,stale
-  ```
+```
+-U|--username="gitconfig user.name"
+-R|--remote=origin
+-T|--tags
+-B|--branches
+-F|--filter=mine,stale
+```
 
 Copyright (c) 2015 David O'Trakoun
 
