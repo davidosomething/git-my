@@ -1,4 +1,4 @@
-# git-my v0.3.0
+# git-my v0.4.0
 
 > Lists a user's remote branches and shows if it was merged and/or available
 > locally
@@ -27,6 +27,18 @@ From command line execute:
 ```
 git my
 ```
+
+### Options
+
+Currently git-my supports one argument, the remote branch to test against. E.g.
+running:
+
+```
+git my origin/qa
+```
+
+will give you a list of your remote branches and tell you which ones have been
+merged into `origin/qa`.
 
 ## To do
 
