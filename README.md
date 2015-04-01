@@ -3,7 +3,9 @@
 > Lists a user's remote branches and shows if it was merged and/or available
 > locally
 
-[Homepage](https://github.com/davidosomething/git-my)
+| Name | Link |
+| ---- | ---- |
+| Project Home: | [https://github.com/davidosomething/git-my](https://github.com/davidosomething/git-my)
 
 ## About
 
