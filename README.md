@@ -12,7 +12,7 @@ where YOU were the last committer and it will tell you if you have a copy of
 that branch locally.
 
 Here's a screenshot:
-![Example output](https://raw.githubusercontent.com/davidosomething/git-my/docs/git-my/screenshot.png)
+![Example output](https://raw.githubusercontent.com/davidosomething/git-my/docs/screenshot.png)
 
 ## Installation
 
