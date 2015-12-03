@@ -18,7 +18,7 @@ set -eu
 # Exits with error if not a git repository
 #
 _check_in_repository() {
-  git rev-parse --git-dir > /dev/null 2>&1
+  git rev-parse --git-dir >/dev/null 2>&1
 }
 
 # _get_local_branches
@@ -122,7 +122,12 @@ _filter_mine() {
   my_remotes=$(echo "$branchnames" | grep -i "^$git_user")
 
   # output only the branchname
-  echo "$my_remotes" | awk -F'\t' '{ print $2 }'
+  echo "$my_remotes" | grep -v "HEAD" | awk -F'\t' '{ print $2 }'
+}
+
+_merge_lists() {
+  # shellcheck disable=SC2086
+  echo $1 $2 | tr ' ' '\n' | sort -u
 }
 
 # _decorate_merged
@@ -136,53 +141,51 @@ _decorate_merged() {
   local my_branches=$1
   local local_branches=$2
   local merged_remote_branches=$3
-  local decorated
+  local zebra=0
+  local is_first=''
+
+  # heading
+  echo '  local | remote | tracked | branch'
 
   # body
   for branchname in $my_branches
   do
-    local local_text='............'
-    local merged_text='..........'
+    local decorated=''
+    local is_local=' '
+    local is_tracked=' '
+    local is_merged=' '
 
     echo "$local_branches" | grep -q "$branchname" && \
-      local_text='.....[local]'
+      is_local='✓'
+
+    if git rev-parse --symbolic-full-name "$branchname"@{u} >/dev/null 2>&1; then
+      is_tracked='✓'
+    fi
 
     echo "$merged_remote_branches" | grep -q "$branchname" && \
-      merged_text='..[merged]'
+      is_merged='✓'
 
-    decorated+=$(printf "  %12s..%10s. %s" \
-      "$local_text" "$merged_text" "$branchname"
+    decorated=$(printf "%s    %s   |   %s    |    %s    | %s" \
+      "$is_first" "$is_local" "$is_merged" "$is_tracked" "$branchname"
     )
-    decorated+=$'\n'
+
+    if [ $zebra = 0 ]; then
+      echo -en "\e[48;5;0m${decorated}"
+      zebra=1
+    else
+      echo -en "\e[48;5;236m${decorated}"
+      zebra=0
+    fi
+
+    is_first='\n'
   done
-
-  echo "$decorated"
-}
-
-_heading() {
-  local git_user=$1
-  local git_remote=$2
-  local remote_ref=$3
-  local heading
-  local table_heading
-
-  table_heading=$( printf '%12s  %10s  %s' \
-      "local copy?" "in $remote_ref?" "branch name"
-  )
-  heading="$git_user's remote branches in $git_remote"
-
-  printf '+%78s+\n' | tr ' ' -
-  printf '| %-76s |\n' "$heading"
-  printf '+%78s+\n' | tr ' ' -
   echo
-  printf '  %-76s  \n' "$table_heading"
 }
-
 
 _main() {
   local decorated
   local everyones_remotes
-  local git_remote
+  #local git_remote
   local git_user
   local local_branches
   local merged_remote_branches
@@ -196,14 +199,14 @@ _main() {
   local remote_ref=${remote#*/}
 
   git_user=$(git config --get user.name)
-  git_remote=$(git config --get "remote.${remote_name}.url")
+  #git_remote=$(git config --get "remote.${remote_name}.url")
   everyones_remotes=$(_get_everyones_remotes "$remote_name")
   my_remotes=$(_filter_mine "$git_user" "$everyones_remotes")
   merged_remote_branches=$(_get_merged_remote_branches "$remote_name/$remote_ref")
   local_branches=$(_get_local_branches)
+  my_branches=$(_merge_lists "$my_remotes" "$local_branches")
 
-  _heading "$git_user" "$git_remote" "$remote_ref"
-  _decorate_merged "$my_remotes" "$local_branches" "$merged_remote_branches"
+  _decorate_merged "$my_branches" "$my_remotes" "$local_branches" "$merged_remote_branches"
 }
 
 if ! _check_in_repository ; then
