@@ -27,36 +27,26 @@ Here's a screenshot:
 
 From command line execute:
 
-```
-git my
-```
+    git my
 
 ### Options
 
-Currently git-my supports one argument, the remote branch to test against. E.g.
-running:
+#### Remote comparison branch
 
-```
-git my origin/qa
-```
+    git my origin/qa
 
 will give you a list of your remote branches and tell you which ones have been
 merged into `origin/qa`.
 
 ## To do
 
-- Options support
+    -v|--version
+    -h|--help
+    -U|--username
+    --local
+    --merged
+    --tracked
 
-```
-  -v|--version
-  -h|--help
-  -d|--decorate       LOCAL,MERGED
-  -r|--remote-ref     origin/master
-  -U|--username
-  --no-color
-  --no-header
-  --no-decorate
-```
 
 ----
 
