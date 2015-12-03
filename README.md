@@ -16,7 +16,7 @@ Unlike `git branch -r` and `git remote show origin` this shows only branches
 where YOU were the last committer and it will tell you if you have a copy of
 that branch locally.
 
-Here's a screenshot:
+Here's a screenshot:  
 ![Example output](https://raw.githubusercontent.com/davidosomething/git-my/docs/screenshot.png)
 
 ## Installation
