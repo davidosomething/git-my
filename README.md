@@ -1,7 +1,10 @@
-# git-my v0.4.0
+# git-my v1.0.0
 
-> Lists a user's remote branches and shows if it was merged and/or available
-> locally
+Lists all of a user's branches, including local and remote, and shows:
+
+- if a remote branch is checked out locally
+- if a local branch is tracked remotely
+- if a local branch is up-to-date with a specified branch
 
 | Name | Link |
 | ---- | ---- |
@@ -42,7 +45,6 @@ merged into `origin/qa`.
 
 ## To do
 
-- Colorize output
 - Options support
 
 ```
@@ -56,6 +58,7 @@ merged into `origin/qa`.
   --no-decorate
 ```
 
+----
 
 Copyright (c) 2015 David O'Trakoun <me@davidosomething.com>
 
