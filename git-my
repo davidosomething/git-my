@@ -141,13 +141,21 @@ _decorate_merged() {
   local my_branches=$1
   local local_branches=$2
   local merged_remote_branches=$3
-  local zebra=0
-  local is_first=''
+
+  local normal
+  local magenta
+  normal=$(tput sgr0)
+  magenta=$(tput setaf 5)
+
+  local clreol
+  clreol=$'\x1B[K'
 
   # heading
-  echo '  local | remote | tracked | branch'
+  echo 'local | tracked | merged'
+  echo '----- + ------- + ------'
 
   # body
+  local zebra=0
   for branchname in $my_branches
   do
     local decorated=''
@@ -165,27 +173,31 @@ _decorate_merged() {
     echo "$merged_remote_branches" | grep -q "$branchname" && \
       is_merged='✓'
 
-    decorated=$(printf "%s    %s   |   %s    |    %s    | %s" \
-      "$is_first" "$is_local" "$is_merged" "$is_tracked" "$branchname"
-    )
-
-    if [ $zebra = 0 ]; then
-      echo -en "\e[48;5;0m${decorated}"
-      zebra=1
+    if [ "$branchname" == "$(git symbolic-ref --short HEAD)" ]; then
+      branchname="${magenta}${branchname}${normal}"
     else
-      echo -en "\e[48;5;236m${decorated}"
-      zebra=0
+      branchname="${branchname}"
     fi
 
-    is_first='\n'
+    decorated=$(printf "   %s  |      %s  |     %s    %s" \
+      "$is_local" "$is_tracked" "$is_merged" "$branchname")
+
+    if [ $zebra = 0 ]; then
+      printf "\e[48;5;0m%s %s\n" "$decorated" "$clreol"
+      zebra=1
+    else
+      printf "\e[48;5;236m%s %s\n" "$decorated" "$clreol"
+      zebra=0
+    fi
   done
-  echo
+
+  printf "\e[48;5;0m"
 }
 
 _main() {
   local decorated
   local everyones_remotes
-  #local git_remote
+  local git_remote
   local git_user
   local local_branches
   local merged_remote_branches
@@ -199,14 +211,22 @@ _main() {
   local remote_ref=${remote#*/}
 
   git_user=$(git config --get user.name)
-  #git_remote=$(git config --get "remote.${remote_name}.url")
+  git_remote=$(git config --get "remote.${remote_name}.url")
   everyones_remotes=$(_get_everyones_remotes "$remote_name")
   my_remotes=$(_filter_mine "$git_user" "$everyones_remotes")
   merged_remote_branches=$(_get_merged_remote_branches "$remote_name/$remote_ref")
   local_branches=$(_get_local_branches)
   my_branches=$(_merge_lists "$my_remotes" "$local_branches")
 
-  _decorate_merged "$my_branches" "$my_remotes" "$local_branches" "$merged_remote_branches"
+  echo
+  echo "branches owned by user:   $git_user"
+  echo "compare local/merge to:  $remote"
+  echo "in remote repository:     $git_remote"
+  echo
+
+  _decorate_merged "$my_branches" "$local_branches" "$merged_remote_branches"
+
+  echo
 }
 
 if ! _check_in_repository ; then
