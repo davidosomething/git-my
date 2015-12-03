@@ -219,9 +219,9 @@ _main() {
   my_branches=$(_merge_lists "$my_remotes" "$local_branches")
 
   echo
-  echo "branches owned by user:   $git_user"
+  echo "branches owned by user:  $git_user"
   echo "compare local/merge to:  $remote"
-  echo "in remote repository:     $git_remote"
+  echo "in remote repository:    $git_remote"
   echo
 
   _decorate_merged "$my_branches" "$local_branches" "$merged_remote_branches"
