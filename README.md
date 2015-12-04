@@ -1,4 +1,4 @@
-# git-my v1.0.0
+# git-my v1.1.0
 
 Lists all of a user's branches, including local and remote, and shows:
 
