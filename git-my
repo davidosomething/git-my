@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# git-my v0.4.0
+# git-my v1.0.0
 #
 # Lists a user's remote branches and shows if it was merged
 # and/or available locally
