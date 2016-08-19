@@ -1,4 +1,4 @@
-# git-my v1.1.0
+# git-my
 
 Lists all of a user's branches, including local and remote, and shows:
 
@@ -6,8 +6,8 @@ Lists all of a user's branches, including local and remote, and shows:
 - if a local branch is tracked remotely
 - if a local branch is up-to-date with a specified branch
 
-| Name | Link |
-| ---- | ---- |
+| Name          | Link     |
+| ------------- | -------- |
 | Project Home: | [https://github.com/davidosomething/git-my](https://github.com/davidosomething/git-my)
 
 ## About
