@@ -23,6 +23,14 @@ Here's a screenshot:
 
 - Add the `git-my` file somewhere in your path, e.g. `/usr/local/bin/`
 
+### zplug installation
+
+Super simple if you use zplug:
+
+```sh
+zplug "davidosomething/git-my",   as:command
+```
+
 ## Usage
 
 From command line execute:
