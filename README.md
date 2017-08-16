@@ -21,6 +21,7 @@ Here's a screenshot:
 
 ## Installation
 
+- Requires BASH 4+
 - Add the `git-my` file somewhere in your path, e.g. `/usr/local/bin/`
 
 ### zplug installation
@@ -58,5 +59,5 @@ merged into `origin/qa`.
 
 ----
 
-Copyright (c) 2015 David O'Trakoun <me@davidosomething.com>
+Copyright (c) 2017 David O'Trakoun <me@davidosomething.com>
 

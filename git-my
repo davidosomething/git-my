@@ -1,17 +1,18 @@
 #!/usr/bin/env bash
 
-# git-my v1.1.1
+# git-my v1.1.2
 #
 # Lists a user's remote branches and shows if it was merged
-# and/or available locally
+# and/or available locally.
 #
-# Copyright (c) 2015 David O'Trakoun <me@davidosomething.com>
+# Copyright (c) 2017 David O'Trakoun <me@davidosomething.com>
+#
+# Requires:
+#   bash 4+ for readarray
 #
 # Usage:
 #   git my
 #
-
-set -eu
 
 # is_repository
 #
@@ -233,7 +234,17 @@ main() {
   local remote_ref=${remote#*/}
 
   git_user=$(git config --get user.name)
+  if [ -z "$git_user" ]; then
+    echo "ERROR: user.name is not set in git config"
+    exit 1
+  fi
+
   git_remote=$(git config --get "remote.${remote_name}.url")
+  if [ -z "$git_remote" ]; then
+    echo "ERROR: remote.${remote_name}.url is not set"
+    exit 1
+  fi
+
   everyones_remotes=$(get_everyones_remotes "$remote_name")
   my_remotes=$(filter_mine "$git_user" "$everyones_remotes")
   merged_remote_branches=$(get_merged_remote_branches "$remote_name/$remote_ref")
